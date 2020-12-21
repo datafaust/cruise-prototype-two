@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Navbar} from 'react-bootstrap'
 import classes from './nav.module.css';
-import logo from './assets/taxi.png'
+import anim from '../../assets/taxi.png'
+import logo from "../../assets/logo2.png"
 
 class Navigator extends Component {
 
@@ -15,12 +16,18 @@ class Navigator extends Component {
             <Navbar.Brand href="/">
             <div className={classes.wrapper}>
             <img className={classes.logo}
-                  src={logo}
+                  src={anim}
                   width="70"
                   height="60"
                   alt="React Bootstrap logo"
                 />
-            <h3 className={classes.title}>TLC Cruiser</h3>
+            {/* <h3 className={classes.title}>TLC Croozer</h3> */}
+            <img className={classes.title}
+                  src={logo}
+                  width="200"
+                  height="40"
+                  alt="React Bootstrap logo"
+                />
             </div>
             </Navbar.Brand>
               

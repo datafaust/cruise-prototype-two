@@ -33,9 +33,7 @@ import { getDistance } from "geolib";
     }
   }
 
-  //FUNCTION: SORT GEOJSON
-  const sortGeo = (data) => {
-    
-  }
+  
 
+ 
   

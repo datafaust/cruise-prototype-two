@@ -8,7 +8,7 @@ class Pop extends Component {
             <Modal
                 dialogClassName={classes.modal}
                 show={this.props.showModal}
-                onHide={this.props.closeModal}>
+                onHide={this.props.toggleModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.title}</Modal.Title>
                 </Modal.Header>
@@ -18,7 +18,7 @@ class Pop extends Component {
                 <Modal.Footer>
                     <Button
                         variant="secondary"
-                        onClick={this.props.closeModal}>
+                        onClick={this.props.toggleModal}>
                         Close
                     </Button>
                 </Modal.Footer>

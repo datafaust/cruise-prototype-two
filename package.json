@@ -1,8 +1,8 @@
 {
-  "name": "cruise-prototype",
+  "name": "cruise-prototype-two",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://datafaust.github.io/cruise-prototype",
+  "homepage": "https://datafaust.github.io/cruise-prototype-two",
   "dependencies": {
     "@material-ui/pickers": "^3.2.10",
     "d3": "^5.14.1",
