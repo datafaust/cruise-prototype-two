@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Navbar} from 'react-bootstrap'
 import classes from './nav.module.css';
 import anim from '../../assets/taxi.png'
-import logo from "../../assets/logo2.png"
+import logo from "../../assets/logo3.png"
 
 class Navigator extends Component {
 
@@ -24,7 +24,7 @@ class Navigator extends Component {
             {/* <h3 className={classes.title}>TLC Croozer</h3> */}
             <img className={classes.title}
                   src={logo}
-                  width="200"
+                  width="250"
                   height="40"
                   alt="React Bootstrap logo"
                 />
