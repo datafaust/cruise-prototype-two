@@ -1,16 +1,10 @@
 //LIBRARIES
 import React, { Component } from 'react';
 import Leaf from './components/Leaf';
-import classes from './app.module.css';
-import Navigator from './components/smallComponents/Navigator';
-import { Container, Row, Col, Form } from 'react-bootstrap';
 
 
 //UTIL IMPORTS
 //import { compare } from './util';
-
-//EXTRAS
-var L = require('leaflet')
 
 
 
@@ -33,7 +27,9 @@ class App extends Component {
       geojson: null,
       showModal: false,
       initialWeekday: 'Monday',
-      initialHour: '06:00 AM',
+      initialHour: '06:00',
+      checked: false,
+      showAccordian: "1",
       weekdays: [
         { id: 0, day: "Monday" },
         { id: 1, day: "Tuesday" },
@@ -44,18 +40,18 @@ class App extends Component {
         { id: 6, day: "Sunday" }
       ],
       hours: [
-        { id: 0, hour: "12:00 AM" },
-        { id: 1, hour: "01:00 AM" },
-        { id: 2, hour: "02:00 AM" },
-        { id: 3, hour: "03:00 AM" },
-        { id: 4, hour: "04:00 AM" },
-        { id: 5, hour: "05:00 AM" },
-        { id: 6, hour: "06:00 AM" },
-        { id: 7, hour: "07:00 AM" }
+        { id: 0, hour: "12:00" },
+        { id: 1, hour: "01:00" },
+        { id: 2, hour: "02:00" },
+        { id: 3, hour: "03:00" },
+        { id: 4, hour: "04:00" },
+        { id: 5, hour: "05:00" },
+        { id: 6, hour: "06:00" },
+        { id: 7, hour: "07:00" }
       ]
     };
-    this.handleWeekday = this.handleWeekday.bind(this);
-    this.handleHour = this.handleHour.bind(this);
+    //this.handleWeekday = this.handleWeekday.bind(this);
+    //this.handleHour = this.handleHour.bind(this);
   }
 
   async componentDidMount() {
@@ -71,17 +67,18 @@ class App extends Component {
 
   }
 
+
   //MAP REFERENCE
   setRef = (ref) => {
     this.map = ref;
   }
 
   //HANDLE WEEKDAY CHANGE
-  handleWeekday(event) {
-    console.log(event.target.value)
+  testingSmth =(x)=> {
+    
     //console.log(this.state.routingNum);
     this.setState({
-      initialWeekday: event.target.value,
+      initialWeekday: x,
       loading: true
     });
 
@@ -90,11 +87,11 @@ class App extends Component {
   }
 
   //HANDLE HOUR CHANGE
-  handleHour(event) {
-    console.log(event.target.value)
+  testingTimerZero =(x)=> {
+    
     //console.log(this.state.routingNum);
     this.setState({
-      initialHour: event.target.value,
+      initialHour: x,
       loading: true
     });
 
@@ -107,6 +104,7 @@ class App extends Component {
   toggleModal = () => {
     this.setState({ showModal: !this.state.showModal })
   }
+
 
   //GET USER LOCATION
   getCurrentLocation = async () => {
@@ -125,42 +123,25 @@ class App extends Component {
 
       this.setState({ viewPort: newViewPort });
 
-      setTimeout(() => {
-        this.map.leafletElement.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), this.state.viewPort.zoom);
-      }, 1000)
+      // setTimeout(() => {
+      //   this.map.leafletElement.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), this.state.viewPort.zoom);
+      // }, 1000)
 
     });
   }
 
 
-  // rankSpots = async () => {
-  //   let spots = [];
-  //   await fetch(`${geojson}`)
-  //     .then((response) => response.json())
-  //     .then((geojson) => {
-  //       geojson.features.map(feature => {
-  //         spots.push(
-  //           {
-  //             "id": feature.properties.index_right,
-  //             "latitude": this.state.userLocation[0],
-  //             "longitude": this.state.userLocation[1]
-  //           }
-  //         )
-  //       })
-  //     })
-  //   this.setState({ spots: spots.sort(compare).slice(0, 5) })
-  //   return spots
-  // }
-
   //SWAP FILES AS EXAMPLE
   fetchData = () => {
     //MAP SHOULD CLEAR EVERYTIME NEW DATA IS FETCHED
     if(this.state.loaded === 1) {
+      
       fetch(
         "https://raw.githack.com/datafaust/raw/main/cruise-prototype/hh_2020112300_2020120623_Saturday_02.geojson"
       )
         .then((response) => response.json())
         .then((geojson) => {
+          console.log(geojson)
           this.setState({ geojson, loaded: 2 });
         });
 
@@ -176,58 +157,42 @@ class App extends Component {
   };
 
 
-  geoFilter = (feature) => {
-    let ids = [0, 1, 5, 6];
-    return ids.includes(feature.properties.index_right)
+  sortArrayofObjects = (property, order) => {
+    var sortOrder = order === "asc" ? 1 : -1;
+    return function (a, b) {
+      var result = (a['properties'][property] < b['properties'][property]) ? -1 : (a['properties'][property] > b['properties'][property]) ? 1 : 0;
+      return result * sortOrder;
+    };
   };
+  
+  sliceGeo = async () => {
+    const rearrangedFeatures = await this.state.geojson["features"]
+      .sort(this.sortArrayofObjects("DIFF", "desc"))
+      //.slice(0, 5); //ascending
 
-  // sliceGeo = async (geojson) => {
-  //   let res = await L.geoJson(geojson, { filter: this.geoFilter }).addTo(map);
-  //   console.log('res', res)
-  // }
+      // let newViewPort = {
+      //   height: "100vh",
+      //   width: "100vw",
+      //   latitude: 40.7128,
+      //   longitude: -74.0060,
+      //   zoom: 11
+      // };
 
-
+     this.setState({ 
+       //geojson: rearrangedFeatures,
+       checked: !this.state.checked
+       //viewPort: newViewPort 
+      });
+    
+    console.log(rearrangedFeatures);
+  };
+  
 
   render() {
 
     return (
       
-          <Container fluid="md"  >
-            <Navigator />
-
-            {/** FILTERS */}
-            <Row
-              style={{ marginLeft: '1%', marginTop: '1%', marginRight: '1%' }}
-            >
-              <Col>
-                {this.state.weekdays && <Form>
-                  <Form.Group controlId="weekday_select">
-                    <Form.Label>Choose a weekday:</Form.Label>
-                    <Form.Control as="select" value={this.state.initialWeekday} onChange={this.handleWeekday}>
-                      {this.state.weekdays.map((weekday, i) => <option key={weekday.id} value={weekday.id}>{weekday.day}</option>)})
-                  </Form.Control>
-                  </Form.Group>
-                </Form>
-
-                }
-              </Col>
-              <Col>
-                {this.state.hours && <Form>
-                  <Form.Group controlId="hour_select">
-                    <Form.Label>Choose an Hour:</Form.Label>
-                    <Form.Control as="select" value={this.state.initialHour} onChange={this.handleHour}>
-                      {this.state.hours.map((hour, i) => <option key={hour.id} value={hour.id}>{hour.hour}</option>)})
-                  </Form.Control>
-                  </Form.Group>
-                </Form>
-
-                }
-              </Col>
-
-            </Row>
-
-
-
+          <div>
             {/** MAP */}
             <div>
               {this.state.geojson && <Leaf
@@ -237,25 +202,16 @@ class App extends Component {
                 geojson={this.state.geojson}
                 showModal={this.state.showModal}
                 toggleModal ={this.toggleModal}
+                testingSmth = {this.testingSmth}
+                testingTimerZero = {this.testingTimerZero}
+                sliceGeo={this.sliceGeo}
+                checked={this.state.checked}
+                showAccordian={this.state.showAccordian}
               />}
             </div>
-
-          </Container>
-
-
+          </div>
     );
   }
 }
 
 export default App;
-
-
-/**
- * LoadingMessage = () => {
-    return (
-      <div className={classes.splash_screen}>
-        <div className={classes.loader}></div>
-      </div>
-    );
-  }
- */

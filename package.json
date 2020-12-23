@@ -13,6 +13,7 @@
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.15",
     "react-dom": "^16.12.0",
+    "react-icons": "^4.1.0",
     "react-input-switch": "^2.2.2",
     "react-leaflet": "^2.5.0",
     "react-leaflet-choropleth": "^2.0.1",

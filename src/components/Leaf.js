@@ -8,6 +8,8 @@ import { Image } from 'react-bootstrap';
 import Control from 'react-leaflet-control';
 import Pop from "./smallComponents/Pop";
 //import Location from './Location';
+import MainMenu from './smallComponents/Accordion'
+import Navigator from './smallComponents/Navigator';
 
 //IMAGES
 import loc from "../assets/target.png"
@@ -22,10 +24,39 @@ const summary = `TaxiPal is built to help drivers understand what hotspots of ac
 
 class Leaf extends Component {
 
+
+  testingSmthSec = (x) => {
+    this.props.testingSmth(x)
+    console.log(x)
+
+  }
+
+  testingTimer = (x) => {
+    this.props.testingTimerZero(x)
+    console.log(x)
+  }
+
+
+
   render() {
 
     return (
       <div>
+        <div className='fixed-top' >
+          <Navigator />
+        </div>
+        <div className='fixed-top' style={{ width: '90%' }}>
+          <MainMenu 
+            testingSmthSec={this.testingSmthSec} 
+            testingTimer={this.testingTimer} 
+            sliceGeo={this.props.sliceGeo}
+            checked={this.props.checked}
+            showAccordian={this.props.showAccordian}
+          />
+        </div>
+
+
+
         <Pop
           title={"Information"}
           summary={summary}
@@ -38,13 +69,14 @@ class Leaf extends Component {
           center={[this.props.viewPort.latitude, this.props.viewPort.longitude]}
           zoom={this.props.viewPort.zoom}
           className={classes.map}
+          zoomControl={false}
         >
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {/**GET CURRENT LOCATION */}
-          <Control position="topleft" >
+          <Control position='bottomright' >
             <button
               className={classes.loc}
             >
@@ -59,7 +91,7 @@ class Leaf extends Component {
           </Control>
 
           {/**TOGGLE TOP 5 CLOSEST SITES */}
-          <Control position="topright" >
+          <Control position="bottomright" >
             <button
               className={classes.spots}
               onClick={() => this.setState({ bounds: [51.3, 0.7] })}

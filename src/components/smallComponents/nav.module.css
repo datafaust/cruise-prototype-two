@@ -1,13 +1,41 @@
-.wrapper {
-    display: flex;
-    flex: 1;
-  }
+.navMain{
+  height: 40px;
+  justify-content: center;
+}
+.navText{
+  margin: auto;
+  font-size: 11px;
+}
+
 
 .title {
-    margin-left: 2%;
-    align-items: center;
-    margin-top: 3%;
+  margin-top: 2%;
+  margin-left: 4%;
+
 }
+
+
+
+@media screen and (max-width: 600px) {
+
+
+  .navMain{
+    height: 40px;
+    justify-content: center;
+  }
+  .navText{
+    margin: auto;
+    font-size: 11px;
+  }
+  .title {
+    margin-top: 2%;
+    margin-left: 4%;
+  
+  }
+}
+
+
+
 
   .logo {
     

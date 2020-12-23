@@ -1,0 +1,16 @@
+
+
+  .mainMenu {
+      width: 40%;
+      padding: 10px;
+      margin-top: 70px
+  }
+
+   @media screen and (max-width: 600px) {
+
+
+    .mainMenu {
+        width: 75%;
+        margin-top: 50px
+    }
+  }

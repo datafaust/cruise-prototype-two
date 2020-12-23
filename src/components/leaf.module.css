@@ -2,32 +2,33 @@
     /* position:relative; */
     top: 0;
     bottom: 0;
-    /*width: 100vw;*/
-    height: 75vh;
+    width: 100vw;
+    height: 100vh;
     
    } 
 .loc {
-    margin-top: -7%;
-    position: absolute;
-    background-color: white;
+    
+    position: relative;
+    background-color: rgb(230, 178, 10);
     border-radius:50%;
     display:block;
     border-width: thin;
-    border-color: white;
-    border: 1px solid;
+    border-color: rgb(230, 178, 10);
+   
     padding: 5px;
-    box-shadow: 1px 1px 1px #888888;
+  
 }
 
 .spots {
-    background-color: white;
+    position: relative;
+    background-color: rgb(230, 178, 10);
     border-radius:50%;
     display:block;
     border-width: thin;
-    border-color: white;
-    border: 1px solid;
-    padding: 2px;
-    box-shadow: 1px 1px 1px #888888;
+    border-color: rgb(230, 178, 10);
+    
+    padding: 5px;
+    
 }
 
 
@@ -42,13 +43,18 @@
     background-color:yellow;     
   }
 
+  .mainMenu {
+      width: 40%;
+      padding: 20px
+  }
+
    @media screen and (max-width: 600px) {
     .map {
         position: relative;
         top:0;
         bottom: 0;
         width:100vw; 
-        height: 79vh;
+        height: 100vh;
     }
 
     
@@ -60,26 +66,30 @@
     }
 
     .loc {
-        margin-top: -7%;
-        position: absolute;
-        background-color: white;
+   
+        position: relative;
+        background-color: rgb(230, 178, 10);
         border-radius:50%;
         display:block;
         border-width: thin;
-        border-color: white;
-        border: 1px solid;
+        border-color: rgb(230, 178, 10);
+       
         padding: 5px;
-        box-shadow: 1px 1px 1px #888888;
+        margin-bottom: 35px;
     }
     
     .spots {
-        background-color: white;
+        position: relative;
+        background-color: rgb(230, 178, 10);
         border-radius:50%;
         display:block;
         border-width: thin;
-        border-color: white;
-        border: 1px solid;
+        border-color: rgb(230, 178, 10);
+       
         padding: 5px;
-        box-shadow: 1px 1px 1px #888888;
+    }
+
+    .mainMenu {
+        width: 80%
     }
   }
