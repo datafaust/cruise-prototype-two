@@ -20,7 +20,7 @@ import info from "../assets/information.png"
 //require('leaflet-choropleth')
 
 
-const summary = `TaxiPal is built to help drivers understand what hotspots of activity exist at different hours of the day using industry trip data. The map below will display hot spots outlined in blue. The redder the spot the more active that area is. Zoom in to view the exact streets and check spots you might want to cruise in.`;
+const summary = `Croozer is built to help drivers understand what hotspots of activity exist at different hours of the day using industry trip data. The map below will display hot spots outlined in blue. The redder the spot the more active that area is. Zoom in to view the exact streets and check spots you might want to cruise in.`;
 
 class Leaf extends Component {
 
@@ -46,12 +46,15 @@ class Leaf extends Component {
           <Navigator />
         </div>
         <div className='fixed-top' style={{ width: '90%' }}>
-          <MainMenu 
-            testingSmthSec={this.testingSmthSec} 
-            testingTimer={this.testingTimer} 
+          <MainMenu
+            testingSmthSec={this.testingSmthSec}
+            testingTimer={this.testingTimer}
             sliceGeo={this.props.sliceGeo}
             checked={this.props.checked}
             showAccordian={this.props.showAccordian}
+            regions={this.props.regions}
+            handleCheck={this.props.handleCheck}
+            weekdays={this.props.weekdays}
           />
         </div>
 

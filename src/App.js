@@ -31,23 +31,21 @@ class App extends Component {
       checked: false,
       showAccordian: "1",
       weekdays: [
-        { id: 0, day: "Monday" },
-        { id: 1, day: "Tuesday" },
-        { id: 2, day: "Wednesday" },
-        { id: 3, day: "Thursday" },
-        { id: 4, day: "Friday" },
-        { id: 5, day: "Saturday" },
-        { id: 6, day: "Sunday" }
+        { id: 1, day: "Monday" },
+        { id: 2, day: "Tuesday" },
+        { id: 3, day: "Wednesday" },
+        { id: 4, day: "Thursday" },
+        { id: 5, day: "Friday" },
+        { id: 6, day: "Saturday" },
+        { id: 7, day: "Sunday" }
       ],
-      hours: [
-        { id: 0, hour: "12:00" },
-        { id: 1, hour: "01:00" },
-        { id: 2, hour: "02:00" },
-        { id: 3, hour: "03:00" },
-        { id: 4, hour: "04:00" },
-        { id: 5, hour: "05:00" },
-        { id: 6, hour: "06:00" },
-        { id: 7, hour: "07:00" }
+      regions: [
+        { region: "Citywide", isChecked: false },
+        { region: "Midtown", isChecked: false },
+        { region: "Queens", isChecked: false },
+        { region: "Brooklyn", isChecked: false },
+        { region: "Bronx", isChecked: false },
+        { region: "Staten Island", isChecked: false }
       ]
     };
     //this.handleWeekday = this.handleWeekday.bind(this);
@@ -74,8 +72,8 @@ class App extends Component {
   }
 
   //HANDLE WEEKDAY CHANGE
-  testingSmth =(x)=> {
-    
+  testingSmth = (x) => {
+
     //console.log(this.state.routingNum);
     this.setState({
       initialWeekday: x,
@@ -87,8 +85,8 @@ class App extends Component {
   }
 
   //HANDLE HOUR CHANGE
-  testingTimerZero =(x)=> {
-    
+  testingTimerZero = (x) => {
+
     //console.log(this.state.routingNum);
     this.setState({
       initialHour: x,
@@ -134,8 +132,8 @@ class App extends Component {
   //SWAP FILES AS EXAMPLE
   fetchData = () => {
     //MAP SHOULD CLEAR EVERYTIME NEW DATA IS FETCHED
-    if(this.state.loaded === 1) {
-      
+    if (this.state.loaded === 1) {
+
       fetch(
         "https://raw.githack.com/datafaust/raw/main/cruise-prototype/hh_2020112300_2020120623_Saturday_02.geojson"
       )
@@ -153,7 +151,7 @@ class App extends Component {
         .then((geojson) => {
           this.setState({ geojson, loaded: 1 });
         });
-    } 
+    }
   };
 
 
@@ -164,52 +162,101 @@ class App extends Component {
       return result * sortOrder;
     };
   };
-  
+
   sliceGeo = async () => {
     const rearrangedFeatures = await this.state.geojson["features"]
       .sort(this.sortArrayofObjects("DIFF", "desc"))
-      //.slice(0, 5); //ascending
+    //.slice(0, 5); //ascending
 
-      // let newViewPort = {
-      //   height: "100vh",
-      //   width: "100vw",
-      //   latitude: 40.7128,
-      //   longitude: -74.0060,
-      //   zoom: 11
-      // };
+    let newViewPort = {
+      height: "100vh",
+      width: "100vw",
+      latitude: 40.7128,
+      longitude: -74.0060,
+      zoom: 11
+    };
 
-     this.setState({ 
-       //geojson: rearrangedFeatures,
-       checked: !this.state.checked
-       //viewPort: newViewPort 
-      });
-    
+
+    this.setState({
+      ...this.state.geojson,
+      features: rearrangedFeatures,
+      viewPort: newViewPort
+    });
+
     console.log(rearrangedFeatures);
   };
-  
+
+  handleCheck = async (value, key) => {
+    //copy all items
+    let regions = [...this.state.regions];
+
+    //map each item and assing check value
+    regions.map((item) => {
+      if (item.region === value & item.isChecked === false) {
+        item.isChecked = true
+      } else {
+        item.isChecked = false
+      }
+    })
+
+    //handle sorting
+    if (value === "Citywide" & regions[0].isChecked === true) {
+      console.log("filtering example..", value);
+      let rearrangedFeatures = await this.state.geojson["features"]
+        .sort(this.sortArrayofObjects("DIFF", "desc")).slice(0, 5);
+
+      rearrangedFeatures = {
+        ...this.state.geojson,
+        features: rearrangedFeatures,
+      };
+
+      let newViewPort = {
+        height: "100vh",
+        width: "100vw",
+        latitude: 40.7128,
+        longitude: -74.0060,
+        zoom: 11
+      };
+
+      this.setState({
+        geojson: rearrangedFeatures,
+        viewPort: newViewPort,
+      });
+    } else {
+      this.fetchData();
+    }
+
+
+    this.setState({ regions });
+
+  }
+
 
   render() {
 
     return (
-      
-          <div>
-            {/** MAP */}
-            <div>
-              {this.state.geojson && <Leaf
-                setRef={this.setRef}
-                getCurrentLocation={this.getCurrentLocation}
-                viewPort={this.state.viewPort}
-                geojson={this.state.geojson}
-                showModal={this.state.showModal}
-                toggleModal ={this.toggleModal}
-                testingSmth = {this.testingSmth}
-                testingTimerZero = {this.testingTimerZero}
-                sliceGeo={this.sliceGeo}
-                checked={this.state.checked}
-                showAccordian={this.state.showAccordian}
-              />}
-            </div>
-          </div>
+
+      <div>
+        {/** MAP */}
+        <div>
+          {this.state.geojson && <Leaf
+            setRef={this.setRef}
+            getCurrentLocation={this.getCurrentLocation}
+            viewPort={this.state.viewPort}
+            geojson={this.state.geojson}
+            showModal={this.state.showModal}
+            toggleModal={this.toggleModal}
+            testingSmth={this.testingSmth}
+            testingTimerZero={this.testingTimerZero}
+            sliceGeo={this.sliceGeo}
+            checked={this.state.checked}
+            showAccordian={this.state.showAccordian}
+            regions={this.state.regions}
+            handleCheck={this.handleCheck}
+            weekdays={this.state.weekdays}
+          />}
+        </div>
+      </div>
     );
   }
 }
